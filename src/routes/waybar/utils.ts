@@ -4,9 +4,9 @@ export const clamp = (val: number, min: number, max: number) =>
   Math.min(Math.max(val, min), max);
 
 const fetchFontAwesomeStylesheet = async () => {
-  const raw = await fetch("/fontawesome/css/fontawesome.min.css").then((res) =>
-    res.text()
-  );
+  const raw = await fetch(
+    import.meta.env.BASE_URL + "/fontawesome/css/fontawesome.min.css"
+  ).then((res) => res.text());
   return raw;
 };
 

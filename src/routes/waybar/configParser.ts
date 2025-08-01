@@ -282,7 +282,9 @@ export interface WaybarConfig {
 }
 
 export const parseConfig = async () => {
-  const response = await fetch("/resources/config.jsonc");
+  const response = await fetch(
+    import.meta.env.BASE_URL + "/resources/config.jsonc"
+  );
   const jsoncString = await response.text();
   return parse(jsoncString) as WaybarConfig;
 };

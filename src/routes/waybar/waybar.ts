@@ -9,7 +9,7 @@ const appElement = document.getElementById("app")!;
 export const createWaybarPage = async () => {
   const styleElement = document.createElement("link");
   styleElement.rel = "stylesheet";
-  styleElement.href = "/resources/style.css";
+  styleElement.href = import.meta.env.BASE_URL + "/resources/style.css";
   document.head.appendChild(styleElement);
 
   const config = await parseConfig();
