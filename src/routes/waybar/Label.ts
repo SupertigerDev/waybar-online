@@ -1,11 +1,14 @@
+import type { Module } from "./createModule";
 import { clamp, replaceTextWithUnicode } from "./utils";
 
 interface LabelOpts {
   config?: {
     [key: string]: any;
     format?: string;
+    states: string[];
     "format-icons"?: string[];
   };
+  module: Module
   interval?: number;
   update: () => void;
 }
@@ -53,9 +56,37 @@ export const createLabel = (opts: LabelOpts) => {
     return resIcon;
   };
 
+  const getState = (value: number, lesser: boolean) => {
+    const states = opts.config?.states;
+    if (typeof states !== "object") {
+      return "";
+    }
+    const entries = Object.entries(states) as unknown as [string, number][];
+    
+    entries.sort((a, b) => {
+
+      if (lesser) {
+        return a[1] - b[1];
+      }
+      return b[1] - a[1];
+    });
+    let valid_state = "";
+    entries.forEach((state) => {
+      if ((lesser ? value <= state[1] : value >= state[1]) && !valid_state) {
+        opts.module.element.classList.add(state[0]);
+        valid_state = state[0];
+      } else {
+        opts.module.element.classList.remove(state[0]);
+      }
+    })
+    return valid_state;
+
+  }
+
   return {
     element,
     set,
     getIcon,
+    getState
   };
 };

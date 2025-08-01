@@ -10,10 +10,31 @@ export const createBatteryModule = (
     interval: 1000,
     update: () => update(),
     config: config!,
+    module,
   });
 
   module.element.appendChild(label.element);
 
+  const getState = (battery: {level: number, charging: boolean}) => {
+    let status = "Unknown";
+
+    if (battery.charging && battery.level < 1) {
+      status = "Charging";
+    }
+    if (!battery.charging && battery.level === 1) {
+      status = "Full";
+    }
+
+    if (battery.charging && battery.level === 1) {
+      status = "Plugged"
+    }
+    if (!battery.charging && battery.level < 1) {
+      status = "Discharging"
+    }
+    return status;
+  }
+
+  let lastStatus = "Unknown"
   const update = async () => {
     // const battery = await navigator.getBattery();
 
@@ -21,24 +42,18 @@ export const createBatteryModule = (
       level: Math.random(),
       charging: Math.random() > 0.5,
     };
-
-    let state = "Unknown";
-
-    if (battery.charging && battery.level < 1) {
-      state = "Charging";
-    }
-    if (battery.charging && battery.level === 1) {
-      state = "Full";
-    }
-
-    const charging = battery.charging;
     const batteryPercent = Math.round(battery.level * 100);
 
-    if (charging) {
-      module.element.classList.add("charging");
-    } else {
-      module.element.classList.remove("charging");
-    }
+
+    const status = getState(battery);
+
+    
+    module.element.classList.remove(lastStatus.toLowerCase());
+    module.element.classList.add(status.toLowerCase())
+    lastStatus = status;
+    module.element.title = status;
+    const state = label.getState(batteryPercent, true);
+    console.log(state)
 
     label.set({
       capacity: batteryPercent,
