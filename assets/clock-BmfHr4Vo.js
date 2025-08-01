@@ -1,0 +1,1 @@
+const s=n=>{const t=()=>{const e=new Date,o=e.getHours().toString().padStart(2,"0"),r=e.getMinutes().toString().padStart(2,"0");n.element.innerHTML=`${o}:${r}`};t(),setInterval(t,1e3)};export{s as createClockModule};
