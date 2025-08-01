@@ -1,10 +1,9 @@
-import { createRootPage } from "./routes/root";
-import { createWaybarPage } from "./routes/waybar";
-
 if (location.pathname === "/waybar") {
-  createWaybarPage();
+  import("./routes/waybar/waybar").then(({ createWaybarPage }) =>
+    createWaybarPage()
+  );
 }
 
 if (location.pathname === "/") {
-  createRootPage();
+  import("./routes/root/root").then(({ createRootPage }) => createRootPage());
 }
