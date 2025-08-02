@@ -10,4 +10,8 @@ export const modules = {
     import("./modules/battery").then(
       ({ createBatteryModule }) => createBatteryModule
     ),
+  temperature: () =>
+    import("./modules/temperature").then(
+      ({ createTemperatureModule }) => createTemperatureModule
+    ),
 };
