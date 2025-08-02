@@ -1,6 +1,6 @@
-# Waybar Onlne
+# Waybar Onlne (WIP)
 
-Test your waybar modules on [Online](https://supertigerdev.github.io/waybar-online/).
+Test your waybar styles & configurations on [Online](https://supertigerdev.github.io/waybar-online/).
 
 ## Modules Added
 
