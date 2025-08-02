@@ -1,0 +1,1 @@
+import{c}from"./Label-C5RGArgp.js";const n=(t,l)=>{const a=c({config:l,module:t,clickable:!0,update:()=>e(),defaultFormat:"{:%H:%M}",interval:1e3});t.element.appendChild(a.element);const e=()=>{a.set({})};e(),setInterval(e,1e3)};export{n as createClockModule};
