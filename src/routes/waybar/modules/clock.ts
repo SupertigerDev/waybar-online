@@ -1,16 +1,23 @@
 import type { WaybarConfig } from "../configParser";
 import type { Module } from "../createModule";
+import { createLabel } from "../Label";
 
 export const createClockModule = (
   module: Module,
   config: WaybarConfig["clock"]
 ) => {
-  const update = () => {
-    const date = new Date();
+  const label = createLabel({
+    config,
+    module,
+    clickable: true,
+    update: () => update(),
+    defaultFormat: "{:%H:%M}",
+    interval: 1000,
+  });
 
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    module.element.innerHTML = `${hours}:${minutes}`;
+  module.element.appendChild(label.element);
+  const update = () => {
+    label.set({});
   };
 
   update();

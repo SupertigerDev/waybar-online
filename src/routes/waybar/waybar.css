@@ -1,5 +1,6 @@
 #waybar {
   display: flex;
+  user-select: none;
 }
 
 .modules {

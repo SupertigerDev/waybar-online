@@ -1,5 +1,6 @@
 import type { Module } from "./createModule";
 import { clamp, replaceTextWithUnicode } from "./utils";
+import { format as formatDate } from "date-fns";
 
 interface LabelOpts {
   config?: {
@@ -8,12 +9,15 @@ interface LabelOpts {
     states?: Record<string, number>;
     "format-icons"?: string[];
   };
+  clickable?: boolean;
+  defaultFormat?: string;
   module: Module;
   interval?: number;
   update: () => void;
 }
 export const createLabel = (opts: LabelOpts) => {
-  let format = "";
+  let alt = false;
+  let format = opts.defaultFormat || "";
 
   const getFormat = () => {
     if (!opts.config) return undefined;
@@ -36,8 +40,28 @@ export const createLabel = (opts: LabelOpts) => {
       console.error("No format found");
       return "N/A";
     }
-    const result = format.replace(/\{(\w+)\}/g, (match, key) => {
-      return data[key] !== undefined ? data[key] : match;
+
+    const regex = /\{(\w+)\}|{:(.*?)}/g;
+    const result = format.replace(regex, (match, key, dateFmt) => {
+      if (key !== undefined) {
+        return data[key] !== undefined ? data[key] : match;
+      }
+
+      if (dateFmt !== undefined) {
+        const now = new Date();
+
+        const convertedFormat = dateFmt
+          .replace(/%Y/g, "yyyy")
+          .replace(/%m/g, "MM")
+          .replace(/%d/g, "dd")
+          .replace(/%H/g, "HH")
+          .replace(/%M/g, "mm")
+          .replace(/%S/g, "ss");
+
+        return formatDate(now, convertedFormat);
+      }
+
+      return match;
     });
 
     element.innerHTML = replaceTextWithUnicode(result);
@@ -82,6 +106,20 @@ export const createLabel = (opts: LabelOpts) => {
     });
     return valid_state;
   };
+
+  if (opts.clickable) {
+    element.style.cursor = "pointer";
+
+    element.onclick = () => {
+      alt = !alt;
+      if (alt && opts.config?.["format-alt"]) {
+        setFormat(opts.config?.["format-alt"]);
+      } else {
+        setFormat(opts.config?.format || opts.defaultFormat || "");
+      }
+      opts.update();
+    };
+  }
 
   return {
     element,

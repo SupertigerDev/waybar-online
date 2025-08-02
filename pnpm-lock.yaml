@@ -14,6 +14,9 @@ importers:
       '@tbela99/css-parser':
         specifier: ^1.1.1
         version: 1.1.1
+      date-fns:
+        specifier: ^4.1.0
+        version: 4.1.0
       jsonc-parser:
         specifier: ^3.3.1
         version: 3.3.1
@@ -291,6 +294,9 @@ packages:
 
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
+
+  date-fns@4.1.0:
+    resolution: {integrity: sha512-Ukq0owbQXxa/U3EGtsdVBkR1w7KOQ5gIBqdH2hkvknzZPYvBxb/aa6E8L7tmjFtkwZBu3UXBbjIgPo/Ez4xaNg==}
 
   detect-libc@2.0.4:
     resolution: {integrity: sha512-3UDv+G9CsCKO1WKMGw9fwq/SWJYbI0c5Y7LU1AXYoDdbhE2AHQ6N6Nb34sG8Fj7T5APy8qXDCKuuIHd1BR0tVA==}
@@ -600,6 +606,8 @@ snapshots:
   '@tbela99/css-parser@1.1.1': {}
 
   '@types/estree@1.0.8': {}
+
+  date-fns@4.1.0: {}
 
   detect-libc@2.0.4:
     optional: true

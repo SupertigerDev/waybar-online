@@ -1,5 +1,5 @@
-import { parseConfig } from "./configParser";
-import { createModule } from "./createModule";
+import { parseConfig, type WaybarConfig } from "./configParser";
+import { createModule, type Module } from "./createModule";
 import { modules, type ModuleArray, type Modules } from "./modules";
 
 import "./waybar.css";
@@ -29,25 +29,30 @@ export const createWaybarPage = async () => {
   const moduleCenter = (config["modules-center"] as ModuleArray) || [];
   const moduleRight = (config["modules-right"] as ModuleArray) || [];
 
+  const loadModule = async (
+    name: string,
+    createModuleBase: (name: string) => any,
+    loadIntoElement: HTMLElement,
+    config: WaybarConfig
+  ) => {
+    if (!modules[name as Modules]) {
+      console.error(`Module ${name} not found`);
+      return;
+    }
+    const module = createModuleBase(name);
+    loadIntoElement.appendChild(module.element);
+    const createModule = await modules[name as Modules]?.();
+
+    createModule(module, (config as any)[name]);
+    console.log(`Loaded module ${name}`);
+  };
+
   const loadModules = async (
     enabledModules: ModuleArray,
     modulesElement: HTMLElement
   ) => {
     enabledModules.forEach(async (moduleName) => {
-      if (moduleName === "battery") {
-        console.log(moduleName);
-        const module = createModule("battery");
-        modulesElement.appendChild(module.element);
-        const createBatteryModule = await modules.battery();
-        createBatteryModule(module, config.battery);
-      }
-      if (moduleName === "clock") {
-        console.log(moduleName);
-        const module = createModule("clock");
-        modulesElement.appendChild(module.element);
-        const createClockModule = await modules.clock();
-        createClockModule(module, config.clock);
-      }
+      loadModule(moduleName, createModule, modulesElement, config);
     });
   };
   loadModules(moduleLeft, modulesLeftElement);
