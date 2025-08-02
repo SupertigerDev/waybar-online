@@ -1,0 +1,1 @@
+import{c as r}from"./Label-DtmeicGq.js";const s=(e,n)=>{const t=r({interval:1e3,update:()=>a(),config:n,module:e});e.element.appendChild(t.element);const a=async()=>{const o=Math.round(Math.random()*100);t.set({"":o})};a()};export{s as createMemoryModule};
