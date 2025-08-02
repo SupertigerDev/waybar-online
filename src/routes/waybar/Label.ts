@@ -41,10 +41,10 @@ export const createLabel = (opts: LabelOpts) => {
       return "N/A";
     }
 
-    const regex = /\{(\w+)\}|{:(.*?)}/g;
+    const regex = /\{(\w+)?\}|{:(.*?)}/g;
     const result = format.replace(regex, (match, key, dateFmt) => {
-      if (key !== undefined) {
-        return data[key] !== undefined ? data[key] : match;
+      if (match === "{}" || key !== undefined) {
+        return data[key || ""] !== undefined ? data[key || ""] : match;
       }
 
       if (dateFmt !== undefined) {

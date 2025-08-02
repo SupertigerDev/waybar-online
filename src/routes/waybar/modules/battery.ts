@@ -9,7 +9,7 @@ export const createBatteryModule = (
   config: WaybarConfig["battery"]
 ) => {
   const label = createLabel({
-    interval: 1000,
+    interval: 2000,
     update: () => update(),
     config: config!,
     module,
