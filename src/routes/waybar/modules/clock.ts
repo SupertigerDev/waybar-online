@@ -1,6 +1,10 @@
+import type { WaybarConfig } from "../configParser";
 import type { Module } from "../createModule";
 
-export const createClockModule = (module: Module) => {
+export const createClockModule = (
+  module: Module,
+  config: WaybarConfig["clock"]
+) => {
   const update = () => {
     const date = new Date();
 

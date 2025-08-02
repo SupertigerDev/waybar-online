@@ -5,7 +5,7 @@ interface LabelOpts {
   config?: {
     [key: string]: any;
     format?: string;
-    states: string[];
+    states?: Record<string, number>;
     "format-icons"?: string[];
   };
   module: Module;
@@ -20,8 +20,10 @@ export const createLabel = (opts: LabelOpts) => {
     if (!format) {
       return opts.config?.format || undefined;
     }
-    return opts.config["format-" + format] || undefined;
+    return format;
   };
+
+  const setFormat = (value?: string) => (format = value || "format");
 
   const element = document.createElement("span");
   if (opts.interval && opts.update) {
@@ -86,5 +88,6 @@ export const createLabel = (opts: LabelOpts) => {
     set,
     getIcon,
     getState,
+    setFormat,
   };
 };
