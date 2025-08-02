@@ -41,10 +41,8 @@ export const createBatteryModule = (
     // const battery = await navigator.getBattery();
 
     const battery = {
-      // level: Math.random(),
-      // charging: Math.random() > 0.5,
-      level: 0.1,
-      charging: true,
+      level: Math.random(),
+      charging: Math.random() > 0.5,
     };
     const batteryPercent = Math.round(battery.level * 100);
 

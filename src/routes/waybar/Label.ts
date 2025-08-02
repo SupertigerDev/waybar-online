@@ -23,7 +23,7 @@ export const createLabel = (opts: LabelOpts) => {
     return format;
   };
 
-  const setFormat = (value?: string) => (format = value || "format");
+  const setFormat = (value?: string) => (format = value || "");
 
   const element = document.createElement("span");
   if (opts.interval && opts.update) {
