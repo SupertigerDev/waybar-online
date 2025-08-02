@@ -8,14 +8,14 @@ interface LabelOpts {
     states: string[];
     "format-icons"?: string[];
   };
-  module: Module
+  module: Module;
   interval?: number;
   update: () => void;
 }
 export const createLabel = (opts: LabelOpts) => {
   let format = "";
 
-  const getMarkup = () => {
+  const getFormat = () => {
     if (!opts.config) return undefined;
     if (!format) {
       return opts.config?.format || undefined;
@@ -29,12 +29,12 @@ export const createLabel = (opts: LabelOpts) => {
   }
 
   const set = (data: Record<string, any>) => {
-    const markup = getMarkup() as string | undefined;
-    if (!markup) {
+    const format = getFormat() as string | undefined;
+    if (!format) {
       console.error("No format found");
       return "N/A";
     }
-    const result = markup.replace(/\{(\w+)\}/g, (match, key) => {
+    const result = format.replace(/\{(\w+)\}/g, (match, key) => {
       return data[key] !== undefined ? data[key] : match;
     });
 
@@ -62,9 +62,8 @@ export const createLabel = (opts: LabelOpts) => {
       return "";
     }
     const entries = Object.entries(states) as unknown as [string, number][];
-    
-    entries.sort((a, b) => {
 
+    entries.sort((a, b) => {
       if (lesser) {
         return a[1] - b[1];
       }
@@ -78,15 +77,14 @@ export const createLabel = (opts: LabelOpts) => {
       } else {
         opts.module.element.classList.remove(state[0]);
       }
-    })
+    });
     return valid_state;
-
-  }
+  };
 
   return {
     element,
     set,
     getIcon,
-    getState
+    getState,
   };
 };
